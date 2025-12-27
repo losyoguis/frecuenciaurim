@@ -96,8 +96,50 @@
                                                 </div>
                                                 <div class="tp-caption slider1_bg_text tp-resizeme" id="slide-8-layer-10" data-x="center" data-hoffset="315" data-y="center" data-voffset="-40" data-width="['auto']" data-height="['auto']" data-transform_idle="o:1;" data-transform_in="opacity:0;s:2000;e:Power2.easeInOut;" data-transform_out="opacity:0;s:300;" data-start="3500" data-splitin="none" data-splitout="none" data-responsive_offset="on">Healthy </div>
                                                 <div class="tp-caption slider1_home1_header tp-resizeme" id="slide-8-layer-1" data-x="right" data-hoffset="215" data-y="center" data-voffset="-38" data-width="['auto']" data-height="['auto']" data-transform_idle="o:1;" data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:3000;e:Power2.easeInOut;" data-transform_out="opacity:0;s:300;" data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;" data-start="500" data-splitin="none" data-splitout="none" data-responsive_offset="on">Health Coaching
-                                                    <br/> Just Got
-                                                    <span>Easier!</span>
+                                                    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<div id="googleBtn"></div>
+
+<script>
+  function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''));
+    return JSON.parse(jsonPayload);
+  }
+
+  function onGoogleCredential(response) {
+    const idToken = response.credential;
+    const user = parseJwt(idToken);
+
+    localStorage.setItem("google_id_token", idToken);
+    localStorage.setItem("user_profile", JSON.stringify({
+      sub: user.sub,
+      name: user.name,
+      email: user.email,
+      picture: user.picture
+    }));
+
+    console.log("OK login:", user.email);
+    // aquí pintas tu UI (nombre/foto) y continúas tu app
+  }
+
+  window.onload = () => {
+    google.accounts.id.initialize({
+      client_id: "932013722424-9uoc8vlc0b252qeuk5o81bsnj3th0ruk.apps.googleusercontent.com",
+      callback: onGoogleCredential,
+      ux_mode: "popup"   // CLAVE para evitar problemas en embebidos
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("googleBtn"),
+      { theme: "outline", size: "large", shape: "pill", text: "signin_with" }
+    );
+  };
+</script>
+
                                                 </div>
                                                 <div class="tp-caption home_1_slide_1_text_4 tp-resizeme" id="slide-8-layer-6" data-x="center" data-hoffset="315" data-y="center" data-voffset="120" data-width="['auto']" data-height="['auto']" data-transform_idle="o:1;" data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power2.easeInOut;" data-transform_out="opacity:0;s:300;" data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;" data-start="1500" data-splitin="none" data-splitout="none" data-responsive_offset="on">with Melanie Hanson </div>
                                                 <div class="tp-caption home_1_slide_1_scroll tp-resizeme" id="slide-8-layer-9" data-x="center" data-hoffset="" data-y="bottom" data-voffset="" data-width="['auto']" data-height="['auto']" data-transform_idle="o:1;" data-transform_in="opacity:0;s:1.875;e:Power2.easeInOut;" data-transform_out="opacity:0;s:1.875;" data-start="0" data-splitin="none" data-splitout="none" data-actions='[{"event":"click","action":"scrollbelow","offset":"px","delay":""}]' data-basealign="slide" data-responsive_offset="on">
